@@ -76,7 +76,7 @@ class WebSocketServer
 	 *
 	 * @return WebSocketServer
 	 */
-	public function setServerLog(string $serverLog = 'LocalSocketApi.log') : WebSocketServer
+	public function setServerLog(string $serverLog = 'anonymousChat.log') : WebSocketServer
 	{
 		$this->serverLog = $serverLog;
 		

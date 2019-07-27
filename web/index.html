@@ -88,10 +88,6 @@
 			//alert('连接关闭');
 		};
 		
-		websocket.onopen = function ()
-		{
-		};
-		
 		websocket.onmessage = function (event)
 		{
 			var info = JSON.parse(event.data);
@@ -110,11 +106,14 @@
 				case 'onlineList':
 					for (var d in data.list)
 					{
-						html += `<li class="list-item">
-							<a href="javascript:;" data-id="${data.list[d].id}">
-								${data.list[d].nickName}
-							</a>
-						</li>`;
+						if (data.list.hasOwnProperty(d))
+						{
+							html += `<li class="list-item">
+								<a href="javascript:;" data-id="${data.list[d].id}">
+									${data.list[d].nickName}
+								</a>
+							</li>`;
+						}
 					}
 					$('.onlineUserList').html(html);
 					break;
@@ -124,14 +123,13 @@
 					{
 						_class = `self`;
 					}
-					html = `<span class="nickName">${data.senderNickName}</span>&nbsp;<div class="${_class} message">
+					html = `<span class="nickName">${data.senderNickName}</span>
+					<div class="${_class} message">
 						 ${data.message}
 					</div>`;
 					
 					var messageArea = $('#messageArea');
-					
 					messageArea.append(html);
-					
 					messageArea.get(0).scrollTop = messageArea.get(0).scrollHeight;
 					break;
 				default:

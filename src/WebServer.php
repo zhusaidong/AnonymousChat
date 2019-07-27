@@ -41,8 +41,7 @@ class WebServer
 	
 	public function run()
 	{
-		//$worker = new BaseWebServer('http://0.0.0.0:' . $this->port);
-		$worker = new WebServer2('http://0.0.0.0:' . $this->port);
+		$worker = new BaseWebServer('http://0.0.0.0:' . $this->port);
 		
 		$worker->name  = 'ac web server';
 		$worker->count = 10;
