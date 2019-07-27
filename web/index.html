@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+	<head>
+		<title>AnonymousChat v0.1</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Description" content="AnonymousChat 是一个匿名的陌生人随机聊天网站，进入网站，你可以马上跟一个互不认识的陌生人聊天。通过文字逐渐相互了解。尽情享受这种从陌生人到朋友的感觉吧。" />
+		<meta name="Keywords" content="匿名聊天,陌生人聊天,在线聊天,Anonymous Chat" />
+		<meta name="Author" content="zsdroid" />
+		<script src="static/js/jquery.2.1.1.min.js" type="text/javascript"></script>
+		<link href="static/css/bootstrap.3.3.1.min.css" rel="stylesheet">
+		<script src="static/js/bootstrap.3.3.1.min.js" type="text/javascript"></script>
+		<style type="text/css">
+			.self {
+				background-color: rgb(152, 205, 101);
+			}
+			
+			.message {
+				margin-bottom: 10px;
+				white-space: normal;
+				word-wrap: break-word;
+				max-width: 50%;
+				height: auto;
+			}
+			
+			#messageArea::-webkit-scrollbar {
+				display: none;
+			}
+			
+			#messageArea {
+				overflow-y: auto;
+				background-color: #fff;
+				border: 1px solid #ccc;
+				margin-bottom: 20px;
+			}
+			
+			.main {
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row-fluid main">
+				<!--在线人数-->
+				<div class="col-md-3">
+					<form action="" class="form-inline">
+						<div class="form-group">
+							<label for="nickname">昵称</label> <input type="text" class="form-control" id="nickname" />
+						</div>
+						<button type="button" class="btn btn-default" id="changeNickName">修改昵称</button>
+					</form>
+					<br>
+					<div class="form-group">
+						<label for="message">在线人数: </label> <span id="online_num">0</span> <br />
+						<ul class="list-unstyled onlineUserList"></ul>
+					</div>
+				</div>
+				<div class="col-md-5">
+					<!--messageArea-->
+					<div id="messageArea"></div>
+					<!--发送-->
+					<form class="form inputForm" action="">
+						<div class="form-group">
+							<label for="message"></label>
+							<textarea class="form-control" id="message" cols="40" rows="3" style="resize:none"></textarea>
+						</div>
+						
+						<button type="button" class="btn btn-success" id="submit">发送</button>
+						<button type="button" class="btn btn-default" id="clearScreen">清屏</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		function initWindow()
+		{
+			$('#messageArea').height($(window).height() - $('.inputForm').height() - 100);
+		}
+		
+		initWindow();
+		window.onresize = initWindow;
+		
+		var websocket = new WebSocket('ws://127.0.0.1:8001');
+		
+		websocket.onclose = function ()
+		{
+			//alert('连接关闭');
+		};
+		
+		websocket.onopen = function ()
+		{
+		};
+		
+		websocket.onmessage = function (event)
+		{
+			var info = JSON.parse(event.data);
+			console.log(info);
+			
+			var data = info.data;
+			var html = '';
+			switch (info.command)
+			{
+				case 'welcome':
+					$('#nickname').val(data.nickName);
+					break;
+				case 'online':
+					$('#online_num').html(data.onlineNumber);
+					break;
+				case 'onlineList':
+					for (var d in data.list)
+					{
+						html += `<li class="list-item">
+							<a href="javascript:;" data-id="${data.list[d].id}">
+								${data.list[d].nickName}
+							</a>
+						</li>`;
+					}
+					$('.onlineUserList').html(html);
+					break;
+				case 'message':
+					var _class = '';
+					if (data.isSelf)
+					{
+						_class = `self`;
+					}
+					html = `<span class="nickName">${data.senderNickName}</span>&nbsp;<div class="${_class} message">
+						 ${data.message}
+					</div>`;
+					
+					var messageArea = $('#messageArea');
+					
+					messageArea.append(html);
+					
+					messageArea.get(0).scrollTop = messageArea.get(0).scrollHeight;
+					break;
+				default:
+					break;
+			}
+		};
+		
+		$('#clearScreen').click(function ()
+		{
+			$('#messageArea').html('');
+		});
+		$('#changeNickName').click(function ()
+		{
+			websocket.send(JSON.stringify({
+				command: 'changeNickName' ,
+				data: $('#nickname').val()
+			}));
+		});
+		$('#submit').click(function ()
+		{
+			if ($('#message').val().trim() === '')
+			{
+				alert('内容不能为空');
+				return;
+			}
+			
+			websocket.send(JSON.stringify({
+				command: 'message' ,
+				data: $('#message').val()
+			}));
+			
+			$('#message').val('').focus();
+		});
+	</script>
+</html>

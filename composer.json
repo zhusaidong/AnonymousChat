@@ -1,0 +1,22 @@
+{
+    "name": "zhusaidong/anonymous-chat",
+    "description": "anonymous chat",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zhusaidong",
+            "email": "zhusaidong@gmail.com"
+        }
+    ],
+    "require": {
+        "walkor/workerman": "^3.5",
+		"ext-json"        :"*",
+		"ext-mbstring"    :"*"
+	},
+    "autoload": {
+        "psr-4": {
+            "Zhusaidong\\AnonymousChat\\": "src/"
+        }
+    }
+}
