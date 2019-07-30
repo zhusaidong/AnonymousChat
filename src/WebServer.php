@@ -39,7 +39,10 @@ class WebServer
 		return $this;
 	}
 	
-	public function run()
+	/**
+	 * run
+	 */
+	public function run() : void
 	{
 		$worker = new BaseWebServer('http://0.0.0.0:' . $this->port);
 		

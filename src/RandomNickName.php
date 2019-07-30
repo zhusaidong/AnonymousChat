@@ -703,6 +703,9 @@ class RandomNickName
 	 */
 	private $numbers = [];
 	
+	/**
+	 * RandomNickName constructor.
+	 */
 	public function __construct()
 	{
 		$this->numbers = [
@@ -712,7 +715,12 @@ class RandomNickName
 		];
 	}
 	
-	public function get()
+	/**
+	 * get nickName
+	 *
+	 * @return string
+	 */
+	public function get() : string
 	{
 		$nickName = $this->adjective[rand(0, $this->numbers['adjective'] - 1)];
 		$nickName .= $this->verb[rand(0, $this->numbers['verb'] - 1)];

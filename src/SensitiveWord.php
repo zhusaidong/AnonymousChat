@@ -9,15 +9,27 @@ namespace Zhusaidong\AnonymousChat;
 
 class SensitiveWord
 {
-	private $banPath  = 'ban/';
+	/**
+	 * @var string $banPath ban path
+	 */
+	private $banPath = 'ban/';
+	/**
+	 * @var array $banTexts
+	 */
 	private $banTexts = [];
 	
+	/**
+	 * SensitiveWord constructor.
+	 */
 	public function __construct()
 	{
 		$this->load();
 	}
 	
-	private function load()
+	/**
+	 * load ban text
+	 */
+	private function load() : void
 	{
 		array_map(function($filePath)
 		{
@@ -25,7 +37,14 @@ class SensitiveWord
 		}, glob($this->banPath . '*.txt'));
 	}
 	
-	public function filter($data)
+	/**
+	 * filter
+	 *
+	 * @param string $data
+	 *
+	 * @return string
+	 */
+	public function filter(string $data) : string
 	{
 		if(preg_match_all("/" . implode("|", $this->banTexts) . "/i", $data, $matches))
 		{
@@ -46,7 +65,7 @@ class SensitiveWord
 	 *
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return implode(PHP_EOL, $this->banTexts);
 	}

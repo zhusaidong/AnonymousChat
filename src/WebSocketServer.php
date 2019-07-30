@@ -62,7 +62,7 @@ class WebSocketServer
 	 *
 	 * @return WebSocketServer
 	 */
-	public function setPort(int $port) : WebSocketServer
+	public function setPort(int $port = 8001) : WebSocketServer
 	{
 		$this->port = $port;
 		

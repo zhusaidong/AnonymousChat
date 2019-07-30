@@ -63,7 +63,7 @@ class User
 	 *
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->nickName . '[' . $this->id . ']';
 	}

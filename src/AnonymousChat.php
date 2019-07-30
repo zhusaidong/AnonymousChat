@@ -18,11 +18,11 @@ class AnonymousChat
 	 */
 	private $clients = [];
 	/**
-	 * @var SensitiveWord|null $sensitiveWord
+	 * @var SensitiveWord $sensitiveWord
 	 */
 	private $sensitiveWord = NULL;
 	/**
-	 * @var RandomNickName|null $randomNickName
+	 * @var RandomNickName $randomNickName
 	 */
 	private $randomNickName = NULL;
 	
@@ -36,6 +36,8 @@ class AnonymousChat
 	}
 	
 	/**
+	 * add client
+	 *
 	 * @param Client $client
 	 *
 	 * @return AnonymousChat
@@ -56,7 +58,7 @@ class AnonymousChat
 	 *
 	 * @return bool
 	 */
-	public function removeClient(string $clientUserId)
+	public function removeClient(string $clientUserId) : bool
 	{
 		if(isset($this->clients[$clientUserId]))
 		{
@@ -69,11 +71,13 @@ class AnonymousChat
 	}
 	
 	/**
+	 * send msg
+	 *
 	 * @param ConnectionInterface $connection
 	 * @param string              $command
 	 * @param array               $data
 	 */
-	private function send(ConnectionInterface $connection, string $command, array $data = [])
+	private function send(ConnectionInterface $connection, string $command, array $data = []) : void
 	{
 		$data['status'] = 1;
 		
@@ -88,7 +92,7 @@ class AnonymousChat
 	 *
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return 'clients(' . count($this->clients) . ')';
 	}
@@ -98,8 +102,9 @@ class AnonymousChat
 	 *
 	 * @param $connectionUserId
 	 */
-	public function connect($connectionUserId)
+	public function connect($connectionUserId) : void
 	{
+		/** @var Client $client */
 		if(($client = $this->clients[$connectionUserId] ?? NULL) !== NULL)
 		{
 			$this->send($client->getConnection(), 'welcome', [
@@ -114,7 +119,7 @@ class AnonymousChat
 	/**
 	 * close
 	 */
-	public function close()
+	public function close() : void
 	{
 		$this->online();
 		$this->onlineList();
@@ -123,9 +128,10 @@ class AnonymousChat
 	/**
 	 * online
 	 */
-	public function online()
+	public function online() : void
 	{
 		$clientCount = count($this->clients);
+		/** @var Client $client */
 		foreach($this->clients as $client)
 		{
 			$this->send($client->getConnection(), 'online', ['onlineNumber' => $clientCount]);
@@ -138,8 +144,9 @@ class AnonymousChat
 	 * @param $connectionUserId
 	 * @param $data
 	 */
-	public function changeNickName($connectionUserId, $data)
+	public function changeNickName($connectionUserId, $data) : void
 	{
+		/** @var Client $client */
 		if(($client = $this->clients[$connectionUserId] ?? NULL) !== NULL)
 		{
 			$client->getUser()->setNickName($data);
@@ -154,10 +161,12 @@ class AnonymousChat
 	 * @param $connectionUserId
 	 * @param $data
 	 */
-	public function message($connectionUserId, $data)
+	public function message($connectionUserId, $data) : void
 	{
+		/** @var Client $senderClient */
 		if(($senderClient = $this->clients[$connectionUserId] ?? NULL) !== NULL)
 		{
+			/** @var Client $client */
 			foreach($this->clients as $client)
 			{
 				$this->send($client->getConnection(), 'message', [
@@ -172,9 +181,10 @@ class AnonymousChat
 	/**
 	 * online user list
 	 */
-	public function onlineList()
+	public function onlineList() : void
 	{
 		$list = [];
+		/** @var Client $client */
 		foreach($this->clients as $client)
 		{
 			$list[] = [
@@ -183,6 +193,7 @@ class AnonymousChat
 			];
 		}
 		
+		/** @var Client $client */
 		foreach($this->clients as $client)
 		{
 			$this->send($client->getConnection(), 'onlineList', ['list' => $list]);
