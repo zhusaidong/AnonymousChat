@@ -116,7 +116,10 @@ class WebSocketServer
 			Worker::$logFile    = $this->serverLog;
 		}
 		
-		Worker::runAll();
+		if(PHP_OS == 'WINNT')
+		{
+			Worker::runAll();
+		}
 	}
 	
 	/**

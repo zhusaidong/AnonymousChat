@@ -5,7 +5,7 @@
  * @author zhusaidong [zhusaidong@gmail.com]
  */
 
-require './vendor/autoload.php';
+require '../../vendor/autoload.php';
 
 use Zhusaidong\AnonymousChat\WebServer;
 

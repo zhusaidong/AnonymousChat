@@ -53,6 +53,9 @@ class WebServer
 		
 		$worker->addRoot('localhost', realpath(__DIR__ . '/../web'));
 		
-		Worker::runAll();
+		if(PHP_OS == 'WINNT')
+		{
+			Worker::runAll();
+		}
 	}
 }
