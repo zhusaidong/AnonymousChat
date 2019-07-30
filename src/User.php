@@ -19,6 +19,7 @@ class User
 	private $nickName = '';
 	
 	/**
+	 * get id
 	 * @return string
 	 */
 	public function getId() : string
@@ -27,6 +28,7 @@ class User
 	}
 	
 	/**
+	 * set id
 	 * @param string $id
 	 *
 	 * @return User
@@ -39,6 +41,7 @@ class User
 	}
 	
 	/**
+	 * get nickName
 	 * @return string
 	 */
 	public function getNickName() : string
@@ -47,6 +50,7 @@ class User
 	}
 	
 	/**
+	 * set nickName
 	 * @param string $nickName
 	 *
 	 * @return User

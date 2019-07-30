@@ -120,6 +120,8 @@ class WebSocketServer
 	}
 	
 	/**
+	 * onConnect
+	 *
 	 * @param ConnectionInterface $connection
 	 */
 	private function onConnect(ConnectionInterface $connection)
@@ -142,6 +144,8 @@ class WebSocketServer
 	}
 	
 	/**
+	 * onMessage
+	 *
 	 * @param ConnectionInterface $connection
 	 * @param                     $input
 	 */
@@ -161,6 +165,8 @@ class WebSocketServer
 	}
 	
 	/**
+	 * onClose
+	 *
 	 * @param ConnectionInterface $connection
 	 */
 	private function onClose(ConnectionInterface $connection)
@@ -175,6 +181,8 @@ class WebSocketServer
 	}
 	
 	/**
+	 * onError
+	 *
 	 * @param ConnectionInterface $connection
 	 * @param                     $code
 	 * @param                     $msg
