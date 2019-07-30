@@ -10,10 +10,10 @@
         }
     ],
     "require":{
-        "php"             :">=7.1",
-        "walkor/workerman":"^3.5",
-        "ext-json"        :"*",
-        "ext-mbstring"    :"*"
+        "php"                :">=7.1",
+        "workerman/workerman":"^3.5",
+        "ext-json"           :"*",
+        "ext-mbstring"       :"*"
     },
     "autoload": {
         "psr-4": {
