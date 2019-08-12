@@ -4,10 +4,10 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba197b05cd38679862274235cae26281",
+    "content-hash": "dfe11f5bd526895f986f47fe95d0c767",
     "packages": [
         {
-            "name": "walkor/workerman",
+            "name": "workerman/workerman",
             "version": "v3.5.20",
             "source": {
                 "type": "git",
@@ -45,9 +45,9 @@
             "authors": [
                 {
                     "name": "walkor",
+                    "role": "Developer",
                     "email": "walkor@workerman.net",
-                    "homepage": "http://www.workerman.net",
-                    "role": "Developer"
+                    "homepage": "http://www.workerman.net"
                 }
             ],
             "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
@@ -56,7 +56,6 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "abandoned": "workerman/workerman",
             "time": "2019-07-02T10:23:18+00:00"
         }
     ],
@@ -66,6 +65,10 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.1",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
     "platform-dev": []
 }
